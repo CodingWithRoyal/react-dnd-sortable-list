@@ -70,11 +70,13 @@ export default function genNewItems(
   const overIndex = flattenedItems.findIndex((i) => i.id === overId)
 
   let insertFirst = false
-  const over = flattenedItems[overIndex]
-  const nextOver = flattenedItems[overIndex + 1]
-  if (nextOver && nextOver.ancestorIds?.includes(over.id)) {
-    overId = nextOver.id
-    insertFirst = true
+  if (activeIndex < overIndex) {
+    const over = flattenedItems[overIndex]
+    const nextOver = flattenedItems[overIndex + 1]
+    if (nextOver && nextOver.ancestorIds?.includes(over.id)) {
+      overId = nextOver.id
+      insertFirst = true
+    }
   }
 
   // 1. Find the active item
