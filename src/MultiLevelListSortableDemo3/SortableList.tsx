@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   DndContext,
   closestCenter,
@@ -21,12 +21,12 @@ import { flatten } from './utils'
 import genNewItems from './genNewItems'
 
 export default function SortableList() {
-  const items = useItemsStore((state) => state.items)
-  const setItems = useItemsStore((state) => state.setItems)
-  const flattenedItems = useMemo(
-    () => flatten(items as IFlattenedItem[]),
-    [items]
-  )
+  const { items, setItems } = useItemsStore()
+  const [flattenedItems, setFlattenedItems] = useState<IFlattenedItem[]>([])
+
+  useEffect(() => {
+    setFlattenedItems(flatten(items as IFlattenedItem[]))
+  }, [items])
   // console.log('flattenedItems', flattenedItems)
 
   const sensors = useSensors(

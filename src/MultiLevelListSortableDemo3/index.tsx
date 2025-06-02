@@ -4,30 +4,30 @@ import SortableList from './SortableList'
 import { IItem } from '../store/itemsStore'
 
 const defaultItems: IItem[] = [
-  { id: 'A', children: [] },
+  { id: 'Google', children: [] },
   {
-    id: 'B',
+    id: 'Youtube',
     children: [
-      { id: 'B1', children: [] },
+      { id: 'Get Users', children: [] },
       {
-        id: 'B2',
+        id: 'Users',
         children: [
-          { id: 'B2a', children: [] },
-          { id: 'B2b', children: [] },
+          { id: 'Get Id', children: [] },
+          { id: 'Get Access Token', children: [] },
         ],
       },
     ],
   },
-  { id: 'C', children: [] },
+  { id: 'Google Maps', children: [] },
   {
-    id: 'D',
+    id: 'AWS',
     children: [
-      { id: 'D1', children: [] },
-      { id: 'D2', children: [] },
+      { id: 'Get EC2 List', children: [] },
+      { id: 'Get RDS List', children: [] },
     ],
   },
-  { id: 'E', children: [] },
-  { id: 'F', children: [] },
+  { id: 'Discord', children: [] },
+  { id: 'Telegram', children: [] },
 ]
 
 export default function MultiLevelListSortableDemo() {
