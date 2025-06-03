@@ -2,32 +2,33 @@ import { useEffect } from 'react'
 import { useItemsStore } from '../store/itemsStore'
 import SortableList from './SortableList'
 import { IItem } from '../store/itemsStore'
+import { nanoid } from 'nanoid'
 
 const defaultItems: IItem[] = [
-  { id: 'Google', children: [] },
+  { id: nanoid(), name: 'Google', children: [] },
   {
-    id: 'Youtube',
+    id: nanoid(), name: 'Youtube',
     children: [
-      { id: 'Get Users', children: [] },
+      { id: nanoid(), name: 'Get Users', children: [] },
       {
-        id: 'Users',
+        id: nanoid(), name: 'Users',
         children: [
-          { id: 'Get Id', children: [] },
-          { id: 'Get Access Token', children: [] },
+          { id: nanoid(), name: 'Get Id', children: [] },
+          { id: nanoid(), name: 'Get Access Token', children: [] },
         ],
       },
     ],
   },
-  { id: 'Google Maps', children: [] },
+  { id: nanoid(), name: 'Google Maps', children: [] },
   {
-    id: 'AWS',
+    id: nanoid(), name: 'AWS',
     children: [
-      { id: 'Get EC2 List', children: [] },
-      { id: 'Get RDS List', children: [] },
+      { id: nanoid(), name: 'Get EC2 List', children: [] },
+      { id: nanoid(), name: 'Get RDS List', children: [] },
     ],
   },
-  { id: 'Discord', children: [] },
-  { id: 'Telegram', children: [] },
+  { id: nanoid(), name: 'Discord', children: [] },
+  { id: nanoid(), name: 'Telegram', children: [] },
 ]
 
 export default function MultiLevelListSortableDemo() {
