@@ -67,6 +67,13 @@ export default function SortableList() {
       onDragEnd={handleDragEnd}
       modifiers={[restrictToVerticalAxis]}
     >
+      <h4 style={{ fontFamily: 'cursive', border: '1px solid #ddd', padding: '5px 20px' }}>
+        Features::
+        <ul>
+          <li>Double click to rename</li>
+          <li>Click and drag item name to sort</li>
+        </ul>
+      </h4>
       <SortableContext
         items={flattenedItems}
         strategy={verticalListSortingStrategy}

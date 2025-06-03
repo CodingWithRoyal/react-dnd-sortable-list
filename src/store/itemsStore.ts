@@ -15,14 +15,20 @@ interface IItemsStore {
   addItem: (item: IItem, ancestorIds: string) => void
   setItems: (items: IItem[]) => void
   updateItem: (id: string, data: Partial<IItem>) => void
+  removeItem: (id: string) => void
+}
+
+function removeRecursive(items: IItem[], id: string): IItem[] {
+  return items
+  .filter(item => item.id !== id)
+  .map(item => ({...item, children: removeRecursive(item.children || [], id)}))
 }
 
 function updateRecursive(items: IItem[], id: string, data: Partial<IItem>): IItem[] {
   return items.map((item): IItem => {
     if (item.id === id) {
       return { ...item, ...data }
-    }
-    if (item.children?.length && item.id !== id) {
+    } else if (item.children) {
       return {...item, children: updateRecursive(item.children, id, data)}
     }
     return item
@@ -60,6 +66,11 @@ export const useItemsStore = create<IItemsStore>((set, get) => ({
   },
   setItems: (items) => set({ items }),
   updateItem: (id, data) => {
-    get().setItems(updateRecursive(get().items, id, data))
+    const itemList = updateRecursive(get().items, id, data)
+    get().setItems(itemList)
   },
+  removeItem: (id) => {
+    const itemList = removeRecursive(get().items, id)
+    get().setItems(itemList)
+  }
 }))

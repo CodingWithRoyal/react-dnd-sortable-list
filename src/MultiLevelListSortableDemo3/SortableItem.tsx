@@ -1,14 +1,17 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useItemsStore, IFlattenedItem } from "../store/itemsStore";
-import { getRandomColor } from "./utils";
+import { getRandomDarkColor } from "./utils";
 import { Icon } from "@iconify/react";
+import { nanoid } from "nanoid";
+import { useState } from "react";
 
 export default function SortableItem(props: { item: IFlattenedItem }) {
   const { item } = props;
   const { id, name, ancestorIds } = item;
   const ancestorIdsLength = item.ancestorIds?.length || 0;
-  const { addItem, updateItem } = useItemsStore();
+  const { addItem, updateItem, removeItem } = useItemsStore();
+  const [hover, setHover] = useState(false)
 
   const {
     attributes,
@@ -19,16 +22,18 @@ export default function SortableItem(props: { item: IFlattenedItem }) {
     transition,
   } = useSortable({ id: id, data: { ancestorIds } });
 
+  const lineHeight = '40px'
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    border: "1px solid #ccc",
+    // border: "1px solid #ccc",
     padding: "0 8px",
-    margin: "8px 4px",
-    background: "white",
+    background: !hover ? 'white' : '#eee',
     boxShadow: "0 1px 1px rgba(0,0,0,0.1)",
     // borderRadius: '8px',
-    color: getRandomColor(id),
+    color: getRandomDarkColor(id),
+    height: lineHeight,
   };
 
   function rename(id: string): void {
@@ -45,30 +50,32 @@ export default function SortableItem(props: { item: IFlattenedItem }) {
   }
 
   function remove(id: string): void {
-    console.log("remove: " + id);
+    removeItem(id)
   }
 
   return (
     <div
       ref={setNodeRef}
-      style={{ ...style, display: "flex", alignItems: "center" }}
+      style={{ ...style, display: "flex", alignItems: "center", userSelect: 'none' }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onDoubleClick={() => { rename(id) }}
     >
-      <p style={{ paddingLeft: `${ancestorIdsLength * 20}px` }}>{name}</p>
-      <div style={{ flexGrow: 1, textAlign: "end" }}>
-        <Icon
+      { (ancestorIds && ancestorIds.length > 0) && ancestorIds.map((i) => {return <div key={nanoid()} style={{ borderLeft: '1px solid #ccc', width: '20px', height: lineHeight }}></div>}) }
+      <p ref={setActivatorNodeRef} {...attributes} {...listeners} style={{ paddingLeft: `0`, flexGrow: 1 }}>{name}</p>
+      <div style={{ textAlign: "end" }}>
+        {/* <Icon
           icon="material-symbols-light:drag-pan-rounded"
           width={24}
           height={24}
-          ref={setActivatorNodeRef}
-          {...attributes}
-          {...listeners}
+          ref={setActivatorNodeRef} {...attributes} {...listeners}
         />
         <Icon
           icon="material-symbols-light:edit-square"
           width={24}
           height={24}
           onClick={() => rename(id)}
-        />
+        /> */}
         <Icon
           icon="material-symbols-light:control-point-duplicate"
           width={24}
